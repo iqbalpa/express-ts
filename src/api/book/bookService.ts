@@ -30,6 +30,21 @@ export class BookService {
 			);
 		}
 	}
+
+	// Retrieve a single book by the ID
+	async findById(id: string): Promise<ServiceResponse<Book | null>> {
+		try {
+			const book = await this.bookRepository.findByIdAsync(id);
+			if (!book) {
+				return ServiceResponse.failure("Book not found", null, StatusCodes.NOT_FOUND);
+			}
+			return ServiceResponse.success("Book found", book);
+		} catch (e) {
+			const errorMessage = `Book with id ${id}: ${(e as Error).message}`;
+			logger.error(errorMessage);
+			return ServiceResponse.failure("An error occured while finding book", null, StatusCodes.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
 
 export const bookService = new BookService();

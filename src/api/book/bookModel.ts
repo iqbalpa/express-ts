@@ -20,3 +20,10 @@ export const BookSchema = z.object({
 });
 
 export type Book = z.infer<typeof BookSchema>;
+
+// Input validation for 'GET books/:id' endpoint
+export const GetBookSchema = z.object({
+	params: z.object({
+		id: z.string(),
+	}),
+});

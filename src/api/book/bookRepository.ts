@@ -32,4 +32,8 @@ export class BookRepository {
 	async findAllAsync(): Promise<Book[]> {
 		return books;
 	}
+
+	async findByIdAsync(id: string): Promise<Book | null> {
+		return books.find((book) => book.id === id) || null;
+	}
 }
