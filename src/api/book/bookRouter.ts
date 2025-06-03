@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { bookController } from "@/api/book/bookController";
-import { BookSchema, GetBookSchema } from "@/api/book/bookModel";
+import { BookSchema, GetBookSchema, PostBookSchema } from "@/api/book/bookModel";
 import { validateRequest } from "@/common/utils/httpHandlers";
 
 export const bookRegistry = new OpenAPIRegistry();
@@ -25,7 +25,27 @@ bookRegistry.registerPath({
 	method: "get",
 	path: "/books/{id}",
 	tags: ["Book"],
+	request: { params: GetBookSchema.shape.params },
 	responses: createApiResponse(BookSchema, "Success"),
 });
 
 bookRouter.get("/:id", validateRequest(GetBookSchema), bookController.getBook);
+
+bookRegistry.registerPath({
+	method: "post",
+	path: "/books",
+	tags: ["Book"],
+	request: {
+		body: {
+			description: "Book to add",
+			content: {
+				"application/json": {
+					schema: PostBookSchema.shape.body,
+				},
+			},
+		},
+	},
+	responses: createApiResponse(BookSchema, "Success"),
+});
+
+bookRouter.post("/", validateRequest(PostBookSchema), bookController.addBook);

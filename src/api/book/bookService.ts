@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import type { Book } from "@/api/book/bookModel";
+import type { Book, PostBook } from "@/api/book/bookModel";
 import { BookRepository } from "@/api/book/bookRepository";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { logger } from "@/server";
@@ -43,6 +43,25 @@ export class BookService {
 			const errorMessage = `Book with id ${id}: ${(e as Error).message}`;
 			logger.error(errorMessage);
 			return ServiceResponse.failure("An error occured while finding book", null, StatusCodes.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// Post a new book
+	async addBook(b: PostBook): Promise<ServiceResponse<Book | null>> {
+		try {
+			const book = await this.bookRepository.addBookAsync(b);
+			if (!book) {
+				return ServiceResponse.failure("Failed to add new book", null, StatusCodes.NOT_FOUND);
+			}
+			return ServiceResponse.success("Added new book successfully", book);
+		} catch (e) {
+			const errorMessage = `Failed to add new book: ${(e as Error).message}`;
+			logger.error(errorMessage);
+			return ServiceResponse.failure(
+				"An error occured while adding a new book",
+				null,
+				StatusCodes.INTERNAL_SERVER_ERROR,
+			);
 		}
 	}
 }

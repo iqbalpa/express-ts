@@ -1,4 +1,5 @@
-import type { Book } from "@/api/book/bookModel";
+import type { Book, PostBook } from "@/api/book/bookModel";
+import { generateId } from "@/common/utils/idGenerator";
 
 export const books: Book[] = [
 	{
@@ -35,5 +36,19 @@ export class BookRepository {
 
 	async findByIdAsync(id: string): Promise<Book | null> {
 		return books.find((book) => book.id === id) || null;
+	}
+
+	async addBookAsync(book: PostBook): Promise<Book | null> {
+		try {
+			const nb: Book = {
+				...book,
+				id: generateId(),
+				addedAt: new Date(),
+			};
+			books.push(nb);
+			return nb;
+		} catch (e) {
+			return null;
+		}
 	}
 }
