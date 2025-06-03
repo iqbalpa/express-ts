@@ -17,7 +17,6 @@ class BookController {
 	};
 
 	public addBook: RequestHandler = async (req: Request, res: Response) => {
-		logger.fatal("book controller");
 		const pb: PostBook = {
 			title: req.body.title as string,
 			author: req.body.author as string,
