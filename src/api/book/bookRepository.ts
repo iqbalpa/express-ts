@@ -51,4 +51,21 @@ export class BookRepository {
 			return null;
 		}
 	}
+
+	async updateBookAsync(book: BookBody, id: string): Promise<Book | null> {
+		try {
+			const b = books.find((book) => book.id === id);
+			if (!b) {
+				return null;
+			}
+			b.author = book.author;
+			b.status = book.status;
+			b.title = book.title;
+			b.notes = book.notes;
+			b.rating = book.rating;
+			return b;
+		} catch (e) {
+			return null;
+		}
+	}
 }

@@ -46,5 +46,8 @@ export const PostBookSchema = z.object({
 
 // Input validation for 'PUT book' endpoint
 export const PutBookSchema = z.object({
+	params: z.object({
+		id: z.string(),
+	}),
 	body: BookBodySchema,
 });

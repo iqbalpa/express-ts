@@ -64,6 +64,25 @@ export class BookService {
 			);
 		}
 	}
+
+	// Update a book
+	async updateBook(b: BookBody, id: string): Promise<ServiceResponse<Book | null>> {
+		try {
+			const book = await this.bookRepository.updateBookAsync(b, id);
+			if (!book) {
+				return ServiceResponse.failure("Failed to update the book", null, StatusCodes.BAD_REQUEST);
+			}
+			return ServiceResponse.success("Updated book successfully", book);
+		} catch (e) {
+			const errorMessage = `Failed to add new book: ${(e as Error).message}`;
+			logger.error(errorMessage);
+			return ServiceResponse.failure(
+				"An error occured while adding a new book",
+				null,
+				StatusCodes.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
 }
 
 export const bookService = new BookService();

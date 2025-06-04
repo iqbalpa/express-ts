@@ -27,6 +27,19 @@ class BookController {
 		const serviceResponse = await bookService.addBook(pb);
 		res.status(serviceResponse.statusCode).send(serviceResponse);
 	};
+
+	public updateBook: RequestHandler = async (req: Request, res: Response) => {
+		const id = req.params.id as string;
+		const pb: BookBody = {
+			title: req.body.title as string,
+			author: req.body.author as string,
+			status: req.body.author as BookStatus,
+			rating: Number.parseFloat(req.body.rating as string),
+			notes: req.body.notes as string,
+		};
+		const serviceResponse = await bookService.updateBook(pb, id);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
 }
 
 export const bookController = new BookController();
