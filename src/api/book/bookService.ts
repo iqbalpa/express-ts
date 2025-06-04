@@ -74,13 +74,24 @@ export class BookService {
 			}
 			return ServiceResponse.success("Updated book successfully", book);
 		} catch (e) {
-			const errorMessage = `Failed to add new book: ${(e as Error).message}`;
+			const errorMessage = `Failed to update a book: ${(e as Error).message}`;
 			logger.error(errorMessage);
-			return ServiceResponse.failure(
-				"An error occured while adding a new book",
-				null,
-				StatusCodes.INTERNAL_SERVER_ERROR,
-			);
+			return ServiceResponse.failure("An error occured while updating a book", null, StatusCodes.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// Delete a book
+	async deleteBook(id: string): Promise<ServiceResponse<Book | null>> {
+		try {
+			const book = await this.bookRepository.deleteBookAsync(id);
+			if (!book) {
+				return ServiceResponse.failure("Failed to delete a book", null, StatusCodes.INTERNAL_SERVER_ERROR);
+			}
+			return ServiceResponse.success("Book deleted successfully", book);
+		} catch (e) {
+			const errorMessage = `Failed to delete a book: ${(e as Error).message}`;
+			logger.error(errorMessage);
+			return ServiceResponse.failure("An error occured while deleting a book", null, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { bookController } from "@/api/book/bookController";
-import { BookSchema, GetBookSchema, PostBookSchema, PutBookSchema } from "@/api/book/bookModel";
+import { BookSchema, DeleteBookSchema, GetBookSchema, PostBookSchema, PutBookSchema } from "@/api/book/bookModel";
 import { validateRequest } from "@/common/utils/httpHandlers";
 
 export const bookRegistry = new OpenAPIRegistry();
@@ -68,4 +68,16 @@ bookRegistry.registerPath({
 	responses: createApiResponse(BookSchema, "Success"),
 });
 
-bookRouter.put("/", validateRequest(PutBookSchema), bookController.updateBook);
+bookRouter.put("/:id", validateRequest(PutBookSchema), bookController.updateBook);
+
+bookRegistry.registerPath({
+	method: "delete",
+	path: "/books/{id}",
+	tags: ["Book"],
+	request: {
+		params: DeleteBookSchema.shape.params,
+	},
+	responses: createApiResponse(BookSchema, "Success"),
+});
+
+bookRouter.delete("/:id", validateRequest(DeleteBookSchema), bookController.deleteBook);

@@ -1,7 +1,7 @@
 import type { Book, BookBody } from "@/api/book/bookModel";
 import { generateId } from "@/common/utils/idGenerator";
 
-export const books: Book[] = [
+export let books: Book[] = [
 	{
 		id: "1a2b3c",
 		title: "The Go Programming Language",
@@ -63,6 +63,19 @@ export class BookRepository {
 			b.title = book.title;
 			b.notes = book.notes;
 			b.rating = book.rating;
+			return b;
+		} catch (e) {
+			return null;
+		}
+	}
+
+	async deleteBookAsync(id: string): Promise<Book | null> {
+		try {
+			const b = books.find((book) => book.id === id);
+			if (!b) {
+				return null;
+			}
+			books = books.filter((book) => book.id !== id);
 			return b;
 		} catch (e) {
 			return null;

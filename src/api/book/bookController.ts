@@ -40,6 +40,12 @@ class BookController {
 		const serviceResponse = await bookService.updateBook(pb, id);
 		res.status(serviceResponse.statusCode).send(serviceResponse);
 	};
+
+	public deleteBook: RequestHandler = async (req: Request, res: Response) => {
+		const id = req.params.id as string;
+		const serviceResponse = await bookService.deleteBook(id);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
 }
 
 export const bookController = new BookController();

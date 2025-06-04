@@ -51,3 +51,10 @@ export const PutBookSchema = z.object({
 	}),
 	body: BookBodySchema,
 });
+
+// Input validation for 'DELETE book' endpoint
+export const DeleteBookSchema = z.object({
+	params: z.object({
+		id: z.string(),
+	}),
+});
