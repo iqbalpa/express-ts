@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { pino } from "pino";
 
 import { openAPIRouter } from "@/api-docs/openAPIRouter";
+import { bookRouter } from "@/api/book/bookRouter";
 import { healthCheckRouter } from "@/api/healthCheck/healthCheckRouter";
 import { userRouter } from "@/api/user/userRouter";
 import errorHandler from "@/common/middleware/errorHandler";
@@ -30,6 +31,7 @@ app.use(requestLogger);
 // Routes
 app.use("/health-check", healthCheckRouter);
 app.use("/users", userRouter);
+app.use("/books", bookRouter);
 
 // Swagger UI
 app.use(openAPIRouter);
