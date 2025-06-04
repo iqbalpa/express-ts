@@ -1,4 +1,4 @@
-import type { Book, PostBook } from "@/api/book/bookModel";
+import type { Book, BookBody } from "@/api/book/bookModel";
 import { generateId } from "@/common/utils/idGenerator";
 
 export const books: Book[] = [
@@ -38,7 +38,7 @@ export class BookRepository {
 		return books.find((book) => book.id === id) || null;
 	}
 
-	async addBookAsync(book: PostBook): Promise<Book | null> {
+	async addBookAsync(book: BookBody): Promise<Book | null> {
 		try {
 			const nb: Book = {
 				...book,

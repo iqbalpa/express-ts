@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-import type { Book, PostBook } from "@/api/book/bookModel";
+import type { Book, BookBody } from "@/api/book/bookModel";
 import { BookRepository } from "@/api/book/bookRepository";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { logger } from "@/server";
@@ -47,7 +47,7 @@ export class BookService {
 	}
 
 	// Post a new book
-	async addBook(b: PostBook): Promise<ServiceResponse<Book | null>> {
+	async addBook(b: BookBody): Promise<ServiceResponse<Book | null>> {
 		try {
 			const book = await this.bookRepository.addBookAsync(b);
 			if (!book) {

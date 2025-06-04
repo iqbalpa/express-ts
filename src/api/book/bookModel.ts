@@ -28,15 +28,23 @@ export const GetBookSchema = z.object({
 	}),
 });
 
-// Input validation for 'POST books' endpoint
-export const PostBookSchema = z.object({
-	body: z.object({
-		title: z.string(),
-		author: z.string(),
-		status: BookStatusEnum,
-		rating: z.number().optional(),
-		notes: z.string().optional(),
-	}),
+// Book body schema for POST and PUT
+const BookBodySchema = z.object({
+	title: z.string(),
+	author: z.string(),
+	status: BookStatusEnum,
+	rating: z.number().optional(),
+	notes: z.string().optional(),
 });
 
-export type PostBook = z.infer<typeof PostBookSchema.shape.body>;
+export type BookBody = z.infer<typeof BookBodySchema>;
+
+// Input validation for 'POST books' endpoint
+export const PostBookSchema = z.object({
+	body: BookBodySchema,
+});
+
+// Input validation for 'PUT book' endpoint
+export const PutBookSchema = z.object({
+	body: BookBodySchema,
+});

@@ -1,6 +1,6 @@
 import type { Request, RequestHandler, Response } from "express";
 
-import type { BookStatus, PostBook } from "@/api/book/bookModel";
+import type { BookBody, BookStatus } from "@/api/book/bookModel";
 import { bookService } from "@/api/book/bookService";
 import { logger } from "@/server";
 
@@ -17,7 +17,7 @@ class BookController {
 	};
 
 	public addBook: RequestHandler = async (req: Request, res: Response) => {
-		const pb: PostBook = {
+		const pb: BookBody = {
 			title: req.body.title as string,
 			author: req.body.author as string,
 			status: req.body.author as BookStatus,
